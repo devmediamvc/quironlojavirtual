@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Quiron.LojaVirtual.Web.Controllers
 {
-    public class ProdutoController : Controller
+    public class ProdutosController : Controller
     {
         private ProdutosRepositorio _repositorio;
 
@@ -16,7 +16,7 @@ namespace Quiron.LojaVirtual.Web.Controllers
         public ActionResult Index()
         {
             _repositorio = new ProdutosRepositorio();
-            var produtos = _repositorio.Produtos.Take(10);
+            var produtos = _repositorio.Produtos.Take(3);
             return View(produtos);
         }
 	}
