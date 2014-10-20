@@ -29,7 +29,5 @@ namespace Quiron.LojaVirtual.Web.HtmlHelpers
             return MvcHtmlString.Create(resultado.ToString());
 
         }
-
-
     }
 }
