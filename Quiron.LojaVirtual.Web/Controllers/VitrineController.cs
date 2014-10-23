@@ -13,30 +13,56 @@ namespace Quiron.LojaVirtual.Web.Controllers
 
         private ProdutosRepositorio _repositorio;
         public int ProdutosPorPagina = 3;
-                
+
         //
         // GET: /Vitrine/
-        public ActionResult ListarProdutos(int pagina = 1)
+        public ActionResult ListarProdutos(string categoria, int pagina = 1)
         {
             _repositorio = new ProdutosRepositorio();
 
-            ProdutosViewModel model = new ProdutosViewModel
+            //ProdutosViewModel model = new ProdutosViewModel
+            //{
+            //    Produtos = _repositorio.Produtos
+            //                    .Where(p => categoria == null || p.Categoria == categoria)
+            //                    .OrderBy(p => p.Descricao)
+            //                    .Skip((pagina - 1) * ProdutosPorPagina)
+            //                    .Take(ProdutosPorPagina),
+
+
+            //    Paginacao = new Paginacao
+            //    {
+            //        PaginaAtual = pagina,
+            //        ItensPorPagina = ProdutosPorPagina,
+            //        ItensTotal = categoria == null ? _repositorio.Produtos.Count() : _repositorio.Produtos.Where(p => p.Categoria == categoria).Count()
+            //    },
+
+            //    CategoriaAtual = categoria
+            //};
+
+
+            ProdutosViewModel model = new ProdutosViewModel();
+            var produtos = _repositorio.Produtos;
+
+            if (!string.IsNullOrEmpty(categoria))
             {
-                Produtos = _repositorio.Produtos
-                            .OrderBy(p => p.Descricao)
-                            .Skip((pagina - 1) * ProdutosPorPagina)
-                            .Take(ProdutosPorPagina),
+                produtos = produtos.Where(p => p.Categoria == null || p.Categoria == categoria);
+            }
 
+            model.Produtos = produtos
+                .OrderBy(p => p.Descricao)
+                .Skip((pagina - 1) * ProdutosPorPagina)
+                .Take(ProdutosPorPagina);
 
-                Paginacao = new Paginacao
-                            {
-                                PaginaAtual = pagina,
-                                ItensPorPagina = ProdutosPorPagina,
-                                ItensTotal = _repositorio.Produtos.Count()
-                            }
+            model.Paginacao = new Paginacao
+            {
+                PaginaAtual = pagina,
+                ItensPorPagina = ProdutosPorPagina,
+                ItensTotal = produtos.Count()
             };
-            
+
+            model.CategoriaAtual = categoria;
+
             return View(model);
         }
-	}
+    }
 }
