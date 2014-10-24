@@ -2,15 +2,26 @@
 
 @Html.ActionLink("Todos os produtos", "ListarProdutos", "Vitrine", null, new { @class = "btn btn-block btn-default btn-lg" })
 
-@foreach(var link in Model)
+@foreach (var link in Model)
 {
+    @*@Html.ActionLink(link, "ListarProdutos", "Vitrine", new
+            {
+                categoria = link,
+                pagina = 1
+            },
+            new
+            {
+                @class = "btn btn-block btn-default btn-lg" + (link == ViewBag.CategoriaSelecionada ? " btn-primary" : "")
+            })*@
+
+
     @Html.RouteLink(link, new
         {
             controller = "Vitrine",
             action = "ListarProdutos",
             categoria = link,
             pagina = 1
-        }, new 
+        }, new
         {
             @class = "btn btn-block btn-default btn-lg" + (link == ViewBag.CategoriaSelecionada ? " btn-primary" : "")
         })
