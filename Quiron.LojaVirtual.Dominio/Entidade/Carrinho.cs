@@ -11,7 +11,7 @@ namespace Quiron.LojaVirtual.Dominio.Entidade
         
         private readonly List<ItemCarrinho> _itemCarrinho = new List<ItemCarrinho>();
         
-        //Adicionar
+       
         public void AdicionarItem(Produto produto, int quantidade)
         {
             ItemCarrinho item = _itemCarrinho.FirstOrDefault(p => p.Produto.ProdutoId == produto.ProdutoId);
@@ -29,6 +29,28 @@ namespace Quiron.LojaVirtual.Dominio.Entidade
                 item.Quantidade += quantidade;
             }
         }
+
+
+        public void RemoverItem(Produto produto)
+        {
+            _itemCarrinho.RemoveAll(p => p.Produto.ProdutoId == produto.ProdutoId);
+        }
+
+        public decimal ObterValorTotal()
+        {
+            return _itemCarrinho.Sum(e => e.Produto.Preco * e.Quantidade);
+        }
+
+        public void LimparCarrinho()
+        {
+            _itemCarrinho.Clear();
+        }
+
+        public IQueryable<ItemCarrinho> ItensCarrinho
+        {
+            get { return (IQueryable<ItemCarrinho>)_itemCarrinho; }
+        }
+
 
     }
 
